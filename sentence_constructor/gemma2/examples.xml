@@ -1,0 +1,45 @@
+<example>
+    <user:input>
+        Bears are at the door, did you leave the garbage out?
+    </user:input>
+    <score>10</score>
+    <score_reasons>
+    </score_reasons>
+    <assistant:output>
+    **Vocabulary Table**
+
+
+| English      | Toki Pona        | Limitation |
+|--------------|-------------------|------------|
+| Bears         | (No direct equivalent)  | Consider "animal" or describe behavior |
+| are          | (Use context)   | Implied by sentence structure |
+| at           | pi       |  |
+| the          |  (Use context)  |  |
+| door        |  telo      |  |
+| did you leave| (No direct equivalent) | Restructure for clarity |
+| garbage      | (No direct equivalent) | Describe contents or use "waste" |
+| out           | li       |  |
+
+
+
+**Sentence Structure**
+
+Toki Pona sentences generally follow a Subject-Verb-Object structure.
+
+* **Example:** mi pona (I am happy)
+
+Keep in mind that Toki Pona has limited vocabulary, so you may need to be creative with your word choices!
+
+**Clues and Considerations**
+
+
+
+* How can you describe "bears" using the vocabulary table?  Perhaps focus on their behavior or appearance.
+* Instead of directly translating "did you leave", think about how to phrase it in a way that Toki Pona's grammar can handle. You might need to rearrange the words.
+* What is another word for "garbage"? Could you describe its contents instead?
+
+
+Let me know what you come up with! If you get stuck, just ask for another hint.
+
+    </assistant:output>
+</example>
