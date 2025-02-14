@@ -2,44 +2,56 @@
     <user:input>
         Bears are at the door, did you leave the garbage out?
     </user:input>
-    <score>10</score>
+    <score>6</score>
     <score_reasons>
+    - BAD: in the vocabulary table, it left out most of the words from the query
+    - GOOD: it is challenging the student to reform their thought process in order to work within the constraints
+    - BAD: it does not provide enough clues
     </score_reasons>
     <assistant:output>
-    **Vocabulary Table**
+    That's a good challenge!  Toki Pona has some limitations when dealing with specific animals and complex actions like "leaving something out." Let's break it down:
+
+**Vocabulary Table Reminder:**
 
 
-| English      | Toki Pona        | Limitation |
-|--------------|-------------------|------------|
-| Bears         | (No direct equivalent)  | Consider "animal" or describe behavior |
-| are          | (Use context)   | Implied by sentence structure |
-| at           | pi       |  |
-| the          |  (Use context)  |  |
-| door        |  telo      |  |
-| did you leave| (No direct equivalent) | Restructure for clarity |
-| garbage      | (No direct equivalent) | Describe contents or use "waste" |
-| out           | li       |  |
+| English          | Toki Pona                  | Limitation                 |
+|------------------|-----------------------------|----------------------------|
+| bears           |  _ala pini e mute a moku_ |  No specific word for "bear" - uses descriptive terms.|
 
-
-
-**Sentence Structure**
-
-Toki Pona sentences generally follow a Subject-Verb-Object structure.
-
-* **Example:** mi pona (I am happy)
-
-Keep in mind that Toki Pona has limited vocabulary, so you may need to be creative with your word choices!
 
 **Clues and Considerations**
 
+1. **Describing Bears:** How can we describe a bear using Toki Pona's vocabulary? Think about size, fur color, and typical animal sounds.
+2. **"At the door":**  Toki Pona doesn't have a specific word for "door." What words could we use to convey location near an entrance?
+3. **"Leave the garbage out":** Toki Pona lacks precise words for actions like "leave" or "garbage." We'll need to be creative and describe what happened.
+
+Think about these things, and don't hesitate to ask if you need more clues!
 
 
-* How can you describe "bears" using the vocabulary table?  Perhaps focus on their behavior or appearance.
-* Instead of directly translating "did you leave", think about how to phrase it in a way that Toki Pona's grammar can handle. You might need to rearrange the words.
-* What is another word for "garbage"? Could you describe its contents instead?
 
 
-Let me know what you come up with! If you get stuck, just ask for another hint.
+
+>>> soweli suli li lon lupa. sina weka e jaki la?
+That's a clever attempt! You're thinking creatively with the words you have. Let's break down your sentence:
+
+* **"soweli suli li lon lupa"**:  You've used "soweli" which means "animal," and "suli" is close to "big."   "Lon lupa" could mean something like "near the food place."
+
+
+**Here's how we can refine it:**
+
+1. **Focus on the Animal:** Instead of "suli," consider words that better describe a bear, like "pini e mute" (big and dark) or "moku" (strong).
+2. **Location:**  "Lupa" usually means "food." Think about how to express being "at the door" in Toki Pona without a direct word for "door."
+
+**Let's try this revised version:**
+
+"Pini e mute lon oken mi, sina weka e jaki la?"
+
+This translates roughly to:  "Big and dark animal near my house, did you put out the food?"
+
+
+
+
+ Keep practicing! You're getting closer to expressing those complex ideas in Toki Pona.
 
     </assistant:output>
 </example>

@@ -1,0 +1,72 @@
+<example>
+    <user:input>
+        Bears are at the door, did you leave the garbage out?
+    </user:input>
+    <score>7</score>
+    <score_reasons>
+    - GOOD: in the vocabulary table, it includes all words from the query with a detailed note
+    - GOOD: it is challenging the student to reform their thought process in order to work within the constraints
+    - BAD: it provides an example
+    </score_reasons>
+    <assistant:output>
+     Vocabulary Table:
+| English Word | Toki Pona Word(s) | Notes |
+|-------------|------------------|-------|
+| Bears       | mute tun liwa    | Mute means "many", tun is a word for an animal that doesn't exist in nature but it's used to describe any kind of animal in Toki Pona. It
+can be used as a placeholder until you learn the actual animal names. Liwa is the word for bear.|
+| Door       | wan lon     | Wan means "one", lon means "door".|
+| Are       | wileke    | Wileke means "exist" but it's often used to express "are" or "be" in Toki Pona.|
+| Garbage   | wan sina    | Wan means "one", sina is a word for waste that can be understood as garbage.|
+| Leave     | toki     | Toki means "to go" but it's often used to express "leave".|
+| Out      | wan lon mute kama  | Wan means "one", lon means "door", mute means "many", and kama can mean "outside of", but here we are using it as "out".|
+
+Clues and Considerations:
+- Refer to the vocabulary table to find the words that relate to your sentence.
+- Remember, Toki Pona doesn't have specific words for tenses or plurals, so you need to use context and creativity to convey your message.
+- To ask about where something is located, we can combine the word for "one" (wan) with the word for "door" (lon).
+- When translating "bears", remember that mute tun liwa is a placeholder until you learn the actual animal names.
+- To express that bears are at the door, use wileke (exist or be) along with mute tun liwa and wan lon (one door).
+- When asking if you left something out, we can combine "leave" (toki) with "one waste" (wan sina) and "outside of one door" (wan lon mute kama). Keep in mind that the
+interpretation relies heavily on context.
+- Remember that Toki Pona requires creativity and heavy reliance on context to express complex ideas efficiently!
+
+Sentence Structure:
+[Subject] + [Verb (action)] + [Location] + [Object]
+
+In this case, it could look like: mute tun liwa wileke wan lon wan sina toki wan lon mute kama. This means "Many animals that are exist, one door, one waste leave one door
+out?"
+
+>>> soweli suli li lon lupa. sina weka e jaki la?
+ Vocabulary Table:
+| English Word | Toki Pona Word(s) | Notes |
+|-------------|------------------|-------|
+| Soweli    | soweli      | The word soweli doesn't have a specific meaning in Toki Pona but it can be used as a placeholder until you learn the actual word. In this case,
+soweli is being used to refer to something that has been lost or misplaced.|
+| Suli       | suli         | It means "string" but in this context, it's being used to represent an item that is thin and long like a string or thread.|
+| Li        | li          | Li can mean "belonging to", "made of", or "having the quality of". In this case, it's being used to connect suli (string) with lon (door).|
+| Lupa      | lupa         | Lupa means "ground" but in this context, it refers to a hole in the ground.|
+| Sina      | sina         | It means "one". In this sentence, it's being used to refer to something that has been lost or misplaced (soweli).|
+| Weka     | weka         | It means "to find" but here it is being used to ask if someone has found something.|
+| E       | e           | E can be used to introduce a question in Toki Pona, similar to "do you have?" or "is there?".|
+| Jaki     | jaki         | It means "big" but it's often used as a demonstrative adjective in Toki Pona, similar to the word "this". In this case, it refers to the big one
+(la).|
+| La      | la          | It means "the" or "this", but its use depends on the context. In this case, it's being used to indicate that we are asking about a specific
+soweli, not just any lost item.|
+
+Clues and Considerations:
+- Refer to the vocabulary table to find the words that relate to your sentence.
+- Remember, Toki Pona doesn't have specific words for tenses or plurals, so you need to use context and creativity to convey your message.
+- To ask about a lost item, we can combine "lost" (soweli) with the word for an object that represents the lost item (suli).
+- When referring to the location of the lost item, we can use li (belonging to or made of) along with lon (door) and lupa (hole in the ground).
+- To ask if something has been found, we can combine "find" (weka) with "one" (sina). Keep in mind that the interpretation relies heavily on context.
+- When asking about a specific lost item, use la to indicate that we are asking about the specific soweli, not just any lost item.
+- Remember that Toki Pona requires creativity and heavy reliance on context to express complex ideas efficiently!
+
+Sentence Structure:
+[Subject] + [Verb (action)] + [Object] + [Location] + [Possessive pronoun / demonstrative adjective]
+
+In this case, it could look like: soweli suli li lon lupa sina weka e jaki la. This means "Lost string that belongs to the hole in the ground, one found this big one?"
+
+
+    </assistant:output>
+</example>
