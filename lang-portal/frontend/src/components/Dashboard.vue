@@ -35,12 +35,16 @@ export default {
   },
   methods: {
     async fetchData() {
+      console.log('Fetching dashboard data...');
       try {
         const [lastSession, progress, stats] = await Promise.all([
           axios.get('/dashboard/last_study_session'),
           axios.get('/dashboard/study_progress'),
           axios.get('/dashboard/quick_stats'),
         ]);
+        console.log('Last study session data fetched.');
+        console.log('Study progress data fetched.');
+        console.log('Quick stats data fetched.');
         this.lastStudySession = lastSession.data;
         this.studyProgress = progress.data;
         this.quickStats = stats.data;

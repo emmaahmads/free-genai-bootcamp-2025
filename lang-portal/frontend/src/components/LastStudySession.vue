@@ -22,13 +22,14 @@ export default {
     },
   },
   mounted() {
-    // Example usage of axios
+    console.log('Fetching last study session data...');
     axios.get('https://new-base-url.com/dashboard/last_study_session')
       .then(response => {
+        console.log('Last study session data fetched successfully.');
         console.log(response.data);
       })
       .catch(error => {
-        console.error(error);
+        console.error('Failed to fetch last study session data:', error);
       });
   },
 };

@@ -21,8 +21,10 @@ export default {
   },
   methods: {
     async fetchActivities() {
+      console.log('Fetching study activities...');
       try {
         const response = await axios.get('/study_activities');
+        console.log('Study activities fetched successfully.');
         this.activities = response.data;
       } catch (error) {
         console.error('Error fetching study activities:', error);

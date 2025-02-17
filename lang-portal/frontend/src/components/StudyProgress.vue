@@ -22,12 +22,14 @@ export default {
     };
   },
   mounted() {
+    console.log('Fetching study progress data...');
     axios.get('https://new-base-url.com/dashboard/study_progress')
       .then(response => {
+        console.log('Study progress data fetched successfully.');
         this.localData = response.data;
       })
       .catch(error => {
-        console.error(error);
+        console.error('Error fetching study progress data:', error);
       });
   },
 };
