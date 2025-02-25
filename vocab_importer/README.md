@@ -10,7 +10,7 @@ We need to quickly populate the application with word and word groups so student
 - The word must have a word group (food, color, etc)
 - We will use the [Jawi API](https://jawi.dev/) to generate the Jawi transcription 
 - For fast prototyping, we will use Streamlit
-- We will use OPEA comps, LLM and TGI microservices
+- We will use OPEA comps, Ollama and telemetry
 
 ## Workflows
 

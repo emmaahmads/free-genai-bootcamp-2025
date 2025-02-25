@@ -1,0 +1,66 @@
+### List Words
+GET http://localhost:8080/api/words?limit=10&offset=0
+
+### Get Word (replace :id with actual ID after creating)
+GET http://localhost:8080/api/words/1
+
+### Create Word
+POST http://localhost:8080/api/words
+Content-Type: application/json
+
+{
+    "malay": "buku",
+    "jawi": "بوکو",
+    "english": "book",
+    "parts": {
+        "type": "noun",
+        "category": "objects"
+    }
+}
+
+### Update Word (replace :id with actual ID)
+PUT http://localhost:8080/api/words/1
+Content-Type: application/json
+
+{
+    "malay": "buku baru",
+    "jawi": "بوکو بارو",
+    "english": "new book",
+    "parts": {
+        "type": "noun",
+        "category": "objects"
+    }
+}
+
+### Delete Word (replace :id with actual ID)
+DELETE http://localhost:8080/api/words/1
+
+### List Groups
+GET http://localhost:8080/api/groups
+
+### Get Group (replace :id with actual ID)
+GET http://localhost:8080/api/groups/1
+
+### Get Group Words (replace :id with actual ID)
+GET http://localhost:8080/api/groups/1/words
+
+### Create Group
+POST http://localhost:8080/api/groups
+Content-Type: application/json
+
+{
+    "name": "Basic Words",
+    "description": "A collection of basic everyday words"
+}
+
+### Update Group (replace :id with actual ID)
+PUT http://localhost:8080/api/groups/1
+Content-Type: application/json
+
+{
+    "name": "Updated Basic Words",
+    "description": "An updated collection of basic everyday words"
+}
+
+### Delete Group (replace :id with actual ID)
+DELETE http://localhost:8080/api/groups/1
