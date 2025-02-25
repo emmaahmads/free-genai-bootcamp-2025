@@ -4,7 +4,7 @@ import StudyActivities from '../components/StudyActivities.vue';
 
 const routes = [
   { path: '/dashboard', component: Dashboard },
-  { path: '/study_activities', component: StudyActivities },
+  { path: '/study-activities', component: StudyActivities },
 ];
 
 const router = createRouter({

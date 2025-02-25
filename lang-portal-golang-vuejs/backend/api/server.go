@@ -57,12 +57,12 @@ func (server *Server) setupRoutes() {
 	api.GET("/study-sessions/:id/reviews", server.getSessionReviews)
 	api.POST("/study-sessions/:id/reviews", server.createReview)
 
-	// // Study Activities routes
-	// api.GET("/study-activities", server.listStudyActivities)
-	// api.GET("/study-activities/:id", server.getStudyActivity)
+	// Study Activities routes
+	api.GET("/study-activities", server.listStudyActivities)
+	api.GET("/study-activities/:id", server.getStudyActivity)
 
 	// Dashboard routes
-	//api.GET("/dashboard/stats", server.getDashboardStats)
+	api.GET("/dashboard/stats", server.getDashboardStats)
 }
 
 // Start runs the HTTP server on a specific address.

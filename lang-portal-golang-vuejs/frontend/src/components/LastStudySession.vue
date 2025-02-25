@@ -23,7 +23,7 @@ export default {
   },
   mounted() {
     console.log('Fetching last study session data...');
-    axios.get('https://new-base-url.com/dashboard/last_study_session')
+    axios.get('/dashboard/last_study_session')
       .then(response => {
         console.log('Last study session data fetched successfully.');
         console.log(response.data);

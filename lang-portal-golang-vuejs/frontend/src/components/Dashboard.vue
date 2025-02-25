@@ -1,59 +1,60 @@
 <template>
   <div class="dashboard">
     <h1>Dashboard</h1>
-    <LastStudySession :data="lastStudySession" />
-    <StudyProgress :data="studyProgress" />
-    <QuickStats :data="quickStats" />
-    <button @click="startStudying">
-      Start Studying
-    </button>
+    <div class="dashboard-grid">
+      <div class="stats-card">
+        <h3>Study Streak</h3>
+        <div class="stat-value">{{ dashboardStats.study_streak_days }} days</div>
+      </div>
+      <div class="stats-card">
+        <h3>Success Rate</h3>
+        <div class="stat-value">{{ dashboardStats.success_rate }}%</div>
+      </div>
+      <div class="stats-card">
+        <h3>Active Groups</h3>
+        <div class="stat-value">{{ dashboardStats.total_active_groups }}</div>
+      </div>
+      <div class="stats-card">
+        <h3>Total Sessions</h3>
+        <div class="stat-value">{{ dashboardStats.total_study_sessions }}</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button @click="startStudying" class="btn btn-primary">Start Studying</button>
+      <router-link to="/study-activities" class="btn btn-secondary">View Activities</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import LastStudySession from './LastStudySession.vue';
-import StudyProgress from './StudyProgress.vue';
-import QuickStats from './QuickStats.vue';
 import axios from '../axios';
 
 export default {
   name: 'DashboardComponent',
-  components: {
-    LastStudySession,
-    StudyProgress,
-    QuickStats,
-  },
   data() {
     return {
-      lastStudySession: {},
-      studyProgress: {},
-      quickStats: {},
+      dashboardStats: {
+        study_streak_days: 0,
+        success_rate: 0,
+        total_active_groups: 0,
+        total_study_sessions: 0,
+      },
     };
   },
   mounted() {
-    this.fetchData();
+    this.fetchDashboardStats();
   },
   methods: {
-    async fetchData() {
-      console.log('Fetching dashboard data...');
+    async fetchDashboardStats() {
       try {
-        const [lastSession, progress, stats] = await Promise.all([
-          axios.get('/dashboard/last_study_session'),
-          axios.get('/dashboard/study_progress'),
-          axios.get('/dashboard/quick_stats'),
-        ]);
-        console.log('Last study session data fetched.');
-        console.log('Study progress data fetched.');
-        console.log('Quick stats data fetched.');
-        this.lastStudySession = lastSession.data;
-        this.studyProgress = progress.data;
-        this.quickStats = stats.data;
+        const response = await axios.get('/dashboard/stats');
+        this.dashboardStats = response.data;
       } catch (error) {
-        console.error('Error fetching dashboard data:', error);
+        console.error('Error fetching dashboard stats:', error);
       }
     },
     startStudying() {
-      this.$router.push('/study_activities');
+      this.$router.push('/study-activities');
     },
   },
 };
@@ -62,5 +63,69 @@ export default {
 <style scoped>
 .dashboard {
   padding: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.stats-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card h3 {
+  color: #666;
+  margin: 0 0 10px 0;
+  font-size: 1.1em;
+}
+
+.stat-value {
+  font-size: 2em;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.btn:hover {
+  opacity: 0.9;
 }
 </style>

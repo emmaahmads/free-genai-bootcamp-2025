@@ -23,7 +23,7 @@ export default {
   },
   mounted() {
     console.log('Fetching study progress data...');
-    axios.get('https://new-base-url.com/dashboard/study_progress')
+    axios.get('/dashboard/study_progress')
       .then(response => {
         console.log('Study progress data fetched successfully.');
         this.localData = response.data;
