@@ -1,5 +1,7 @@
+# Creating a megaservice and the microservices (Homework)
+
 ## OPEA Comps
-OPEA comps are the components that make up the OPEA ecosystem. These components are containerized microservices and can be orchestrated by a megaservice.
+OPEA comps are the components that make up the OPEA ecosystem. These components are containerized microservices and can be orchestrated by a megaservice. A megaservice provides external endpoints.
 
 ## Microservices
 [Source code](https://github.com/opea-project/GenAIComps/tree/main/comps/cores/mega)
@@ -13,7 +15,6 @@ Definitions for setting up the service [constants.py](https://github.com/opea-pr
 
 ## Megaservices
 [Source code](https://github.com/opea-project/GenAIComps/tree/main/comps/cores/mega)
-The MegaService MicroService is defining external endpoints to interact with the Megaservice
 
 ### High level setup of a megaservice
 In the same `Microservice` class, define the `service_role` as `ServiceRoleType.MEGASERVICE`
