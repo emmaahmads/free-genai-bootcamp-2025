@@ -1,5 +1,5 @@
 ## OPEA Comps
-OPEA comps are the components that make up the OPEA ecosystem. These components are containerized microservices and can be assembled as a megaservice.
+OPEA comps are the components that make up the OPEA ecosystem. These components are containerized microservices and can be orchestrated by a megaservice.
 
 ## Microservices
 [Source code](https://github.com/opea-project/GenAIComps/tree/main/comps/cores/mega)
