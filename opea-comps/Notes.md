@@ -1,3 +1,16 @@
+```sh
+CONTAINER ID   IMAGE                                   COMMAND                  CREATED         STATUS                   PORTS                                                                                                                                                                                 NAMES
+f50f567b4e33   jaegertracing/all-in-one:latest         "/go/bin/all-in-one-…"   2 minutes ago   Up 2 minutes             0.0.0.0:4317-4318->4317-4318/tcp, [::]:4317-4318->4317-4318/tcp, 14250/tcp, 0.0.0.0:9411->9411/tcp, [::]:9411->9411/tcp, 0.0.0.0:16686->16686/tcp, [::]:16686->16686/tcp, 14268/tcp   jaeger
+e203d646018a   opea/retriever:latest                   "python opea_retriev…"   9 minutes ago   Up 1 second              0.0.0.0:7000->7000/tcp, [::]:7000->7000/tcp                                                                                                                                           retriever-pgvector
+692abd88b6cf   opea/embedding:latest                   "sh -c 'python $( [ …"   9 minutes ago   Up 8 minutes             0.0.0.0:10203->6000/tcp, [::]:10203->6000/tcp                                                                                                                                         clip-embedding-server
+5691ed97dfb4   opea/embedding-multimodal-clip:latest   "python clip_server.…"   9 minutes ago   Up 9 minutes (healthy)   0.0.0.0:6990->6990/tcp, [::]:6990->6990/tcp                                                                                                                                           multimodal-clip-embedding-server
+94587ce55800   opea/guardrails-bias-detection:latest   "python opea_bias_de…"   9 minutes ago   Up 9 minutes             0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp                                                                                                                                           guardrails-bias-detection-server
+3e96c10b1c06   pgvector/pgvector:0.7.0-pg16            "docker-entrypoint.s…"   9 minutes ago   Up 9 minutes (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                                                                                                           pgvector-db
+13490fec00a7   ollama/ollama                           "/bin/ollama serve"      9 minutes ago   Up 9 minutes             0.0.0.0:8008->11434/tcp, [::]:8008->11434/tcp                                                                                                                                         ollama-server
+```
+
+
+
 ## OPEA Comps
 OPEA comps are the components that make up the OPEA ecosystem. These components are containerized microservices and can be assembled as a megaservice.
 

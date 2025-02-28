@@ -1,0 +1,5 @@
+opea-comps
+fastapi
+uvicorn
+aiohttp
+python-dotenv

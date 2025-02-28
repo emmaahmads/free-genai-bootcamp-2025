@@ -1,0 +1,40 @@
+#! /usr/bin/bash
+
+# Create output directory if it doesn't exist
+mkdir -p ./output
+
+echo "Testing learn-malay service..."
+curl -X POST http://localhost:9997/v1/learn-malay \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream" \
+  --no-buffer \
+  -v \
+  -d '{
+    "model": "deepseek-r1:1.5b",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Hello, how are you?"
+      }
+    ],
+    "max_tokens": 100,
+    "temperature": 0.7
+  }'
+
+echo -e "\nTesting learn-malay service with different model..."
+curl -X POST http://localhost:9997/v1/learn-malay \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream" \
+  --no-buffer \
+  -v \
+  -d '{
+    "model": "llama3.2:1b",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Good morning, nice to meet you."
+      }
+    ],
+    "max_tokens": 100,
+    "temperature": 0.7
+  }' | jq '.'

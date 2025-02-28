@@ -1,0 +1,28 @@
+#! /usr/bin/bash
+
+# Create output directory if it doesn't exist
+mkdir -p ./output
+
+echo "Testing translation service..."
+curl -X POST http://localhost:9091/v1/learn-malay \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "deepseek-r1:1.5b",
+    "language_from": "English",
+    "language_to": "Malay",
+    "source_language": "Hello, how are you?",
+    "max_tokens": 100,
+    "temperature": 0.7
+  }' | jq '.' > ./output/$(date +%s)-translation-response.json
+
+echo -e "\nTesting translation service with different model..."
+curl -X POST http://localhost:9091/v1/learn-malay \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "llama3.2:1b",
+    "language_from": "English",
+    "language_to": "Spanish",
+    "source_language": "Good morning, nice to meet you.",
+    "max_tokens": 100,
+    "temperature": 0.7
+  }' | jq '.'
