@@ -47,3 +47,5 @@ self.megaservice.flow_to(rerank, llm)
 ```
 
 ## Helper utilies (WIP)
+
+## Microservices interaction
