@@ -7,7 +7,7 @@ In this course, Andrew Brown and developers are designing and developing AI-powe
 
 ### My target language 👩‍🏫🌏🇲🇾
 - Malay with Jawi scripts 
-- _"Bahasa Melayu dan tulisan Jawi"_ بهاس ملايو دان توليسن جاوي
+--- _"Bahasa Melayu dan tulisan Jawi"_ بهاس ملايو دان توليسن جاوي
 
 ## My learning projects / Graded Assignments 📚🎓✅
 1. Preweek - GenAI Architecting
