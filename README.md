@@ -14,7 +14,18 @@ Malay with Jawi scripts
 3. Week2 - Writing App, Listening App
 4. Week3
 5. Week4
+6. Week5
 
- 
-
-
+### Repository Structure
+.
+├── README.md                    # Main repo overview
+├── journaling/                  # My notes and Bootcamp journey
+├── genai-architecting/          # AI system architecture
+├── sentence-constructor/        # NLP-based Malay language tutoring
+├── opea-comps/                  # Open Platform Enterprise AI (OPEA) system (megaservice from scratch)
+├── lang-portal-golang-vuejs/    # My frontend and backend applications
+├── vocab_importer/              # Word generator using customized private LLM
+├── writing-practice/            # OCR assisted grading system for writing words in Jawi script
+├── lang-portal/                 # Andrew Brown's Japanese lang portal (copied directly)
+├── typing-tutor/                # Andrew Brown's typing tutor app (copied directly)
+app
