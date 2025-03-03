@@ -5,11 +5,11 @@ In this course, Andrew Brown and developers are designing and developing AI-powe
 ### Sponsors
 [Intel](https://genai.cloudprojectbootcamp.com/booth/intel), [FreeCodeCamp](https://genai.cloudprojectbootcamp.com/booth/freecodecamp), [Torc.dev](https://genai.cloudprojectbootcamp.com/booth/torc), [CodeRabbit](https://coderabbit.ai/)
 
-### My target language 🌏
+### My target language 🗣️🌏🇲🇾
 - Malay with Jawi scripts 
-- 🇲🇾 _"Bahasa Melayu dan tulisan Jawi"_ بهاس ملايو دان توليسن جاوي
+- _"Bahasa Melayu dan tulisan Jawi"_ بهاس ملايو دان توليسن جاوي
 
-## My learning projects / Assignments 📚
+## My learning projects / Graded Assignments 📚🎓✅
 1. Preweek - GenAI Architecting
 2. Week1 - Lang Portal, Vocab Importer, OPEA Megaservice
 3. Week2 - Writing App, Listening App
