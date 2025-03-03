@@ -17,7 +17,7 @@ Malay with Jawi scripts
 6. Week5
 
 ### Repository Structure
-.
+```
 ├── README.md                    # Main repo overview
 ├── journaling/                  # My notes and Bootcamp journey
 ├── genai-architecting/          # AI system architecture
@@ -28,4 +28,4 @@ Malay with Jawi scripts
 ├── writing-practice/            # OCR assisted grading system for writing words in Jawi script
 ├── lang-portal/                 # Andrew Brown's Japanese lang portal (copied directly)
 ├── typing-tutor/                # Andrew Brown's typing tutor app (copied directly)
-app
+```
