@@ -13,7 +13,7 @@ class LLMGenerator:
         self.client = Groq(api_key=self.api_key) if self.api_key else None
 
     def generate_sentence(self, word: dict) -> SentenceResponse:
-        """Generate a sentence using Groq LLM."""
+        """Generate a two-word sentence using Groq LLM."""
         if not self.client:
             return self._generate_mock_sentence(word)
         
@@ -42,40 +42,78 @@ class LLMGenerator:
             return self._generate_mock_sentence(word)
 
     def _create_prompt(self, word: dict) -> str:
-        """Create the prompt for sentence generation."""
+        """Create the prompt for two-word sentence generation."""
         return f"""
-        Generate a simple Malay sentence using the following word: {word['rumi']}.
-        The sentence should be in both Rumi and Jawi script.
-        Follow basic Malay grammar and use vocabulary from these categories:
-        - Common objects (e.g., buku, kereta, nasi, kucing)
-        - Simple verbs (e.g., makan, minum, tidur, baca)
-        - Time expressions (e.g., hari ini, esok, semalam)
-        
-        Return the result in JSON format with the following structure:
+        Generate a simple TWO-WORD Malay phrase using the word: {word['rumi']}.
+        The phrase should be a basic subject-verb or adjective-noun combination.
+
+        Rules:
+        1. MUST be exactly two words
+        2. Use basic vocabulary suitable for beginners
+        3. The phrase should make logical sense
+        4. Can be a simple command, description, or statement
+
+        Examples of valid two-word phrases:
+        - "kucing tidur" (cat sleeping)
+        - "makan nasi" (eat rice)
+        - "buku baru" (new book)
+
+        Return ONLY the result in this JSON format:
         {{
-            "rumi": "The sentence in Malay using Latin script",
-            "jawi": "The sentence in Jawi script",
-            "english": "English translation of the sentence"
+            "rumi": "The two-word phrase in Malay using Latin script",
+            "jawi": "The two-word phrase in Jawi script",
+            "english": "English translation"
         }}
         """
 
     def _generate_mock_sentence(self, word: dict) -> SentenceResponse:
-        """Generate a mock sentence when LLM is unavailable."""
+        """Generate a mock two-word sentence when LLM is unavailable."""
         templates = {
             "buku": {
-                "rumi": "Saya membaca buku setiap hari.",
-                "jawi": "ساي ممباچ بوكو ستياڤ هاري.",
-                "english": "I read a book every day."
+                "rumi": "buku baru",
+                "jawi": "بوكو بارو",
+                "english": "new book"
             },
             "kereta": {
-                "rumi": "Kereta saya berwarna biru.",
-                "jawi": "كريتا ساي برورنا بيرو.",
-                "english": "My car is blue."
+                "rumi": "kereta biru",
+                "jawi": "كريتا بيرو",
+                "english": "blue car"
+            },
+            "nasi": {
+                "rumi": "nasi panas",
+                "jawi": "ناسي ڤانس",
+                "english": "hot rice"
+            },
+            "kucing": {
+                "rumi": "kucing tidur",
+                "jawi": "كوچيڠ تيدور",
+                "english": "sleeping cat"
+            },
+            "makan": {
+                "rumi": "makan nasi",
+                "jawi": "ماكن ناسي",
+                "english": "eat rice"
+            },
+            "minum": {
+                "rumi": "minum kopi",
+                "jawi": "مينوم كوڤي",
+                "english": "drink coffee"
+            },
+            "tidur": {
+                "rumi": "tidur nyenyak",
+                "jawi": "تيدور ڽڽق",
+                "english": "sleep soundly"
+            },
+            "baca": {
+                "rumi": "baca buku",
+                "jawi": "باچ بوكو",
+                "english": "read book"
             }
         }
         
         return templates.get(word['rumi'], {
-            "rumi": f"Saya suka {word['rumi']}.",
-            "jawi": f"ساي سوک {word['jawi']}.",
-            "english": f"I like {word['english']}."
+            "rumi": f"{word['rumi']} baik",
+            "jawi": f"{word['jawi']} باءيق",
+            "english": f"good {word['english']}"
         })
+
