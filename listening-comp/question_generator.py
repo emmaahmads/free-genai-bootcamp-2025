@@ -64,7 +64,7 @@ class QuestionGenerator:
             return None
         
         # Create context from similar questions
-        context = "Here are some example JLPT listening questions:\n\n"
+        context = "Here are some example Malay listening questions:\n\n"
         for idx, q in enumerate(similar_questions, 1):
             if section_num == 2:
                 context += f"Example {idx}:\n"
@@ -86,7 +86,7 @@ class QuestionGenerator:
             context += "\n"
 
         # Create prompt for generating new question
-        prompt = f"""Based on the following example JLPT listening questions, create a new question about {topic}.
+        prompt = f"""Based on the following example Malay listening questions, create a new question about {topic}.
         The question should follow the same format but be different from the examples.
         Make sure the question tests listening comprehension and has a clear correct answer.
         
@@ -95,6 +95,8 @@ class QuestionGenerator:
         Generate a new question following the exact same format as above. Include all components (Introduction/Situation, 
         Conversation/Question, and Options). Make sure the question is challenging but fair, and the options are plausible 
         but with only one clearly correct answer. Return ONLY the question without any additional text.
+        
+        Use Malay language for all text. If you don't have examples in Malay, create a new question in Malay about {topic}.
         
         New Question:
         """
@@ -156,10 +158,10 @@ class QuestionGenerator:
             if 'Options' not in question or len(question.get('Options', [])) != 4:
                 # Use default options if we don't have exactly 4
                 question['Options'] = [
-                    "ピザを食べる",
-                    "ハンバーガーを食べる",
-                    "サラダを食べる",
-                    "パスタを食べる"
+                    "Makan nasi lemak",
+                    "Makan roti canai",
+                    "Makan char kway teow",
+                    "Makan laksa"
                 ]
             
             return question
@@ -173,7 +175,7 @@ class QuestionGenerator:
             return None
 
         # Create prompt for generating feedback
-        prompt = f"""Given this JLPT listening question and the selected answer, provide feedback explaining if it's correct 
+        prompt = f"""Given this Malay listening question and the selected answer, provide feedback explaining if it's correct 
         and why. Keep the explanation clear and concise.
         
         """
