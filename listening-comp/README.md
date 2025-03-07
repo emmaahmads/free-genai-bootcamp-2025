@@ -21,3 +21,6 @@ This project is designed to enhance listening comprehension skills using Youtube
 ### In progress
 - Using HuggingFace to get embeddings for the transcript and storing them in chromadb as the vector store
 - Agentic workflows to approve Youtube content and search for transcript (default is using Youtube API)
+
+#### OPEA components
+- A megaservice that responds to audio input from students with audio (ASR->vLLM/Ollama->TTS)
