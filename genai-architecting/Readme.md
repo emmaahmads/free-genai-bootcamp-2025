@@ -9,7 +9,7 @@ First AI-powered Malay-English language learning platform with Jawi script featu
 
 ## Assumptions
 
-Architecture
+Architecture Diagram (TODO)
 
 ## Data Strategy
 
