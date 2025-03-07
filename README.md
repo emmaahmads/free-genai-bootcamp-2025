@@ -12,7 +12,7 @@ In this course, Andrew Brown and developers are designing and developing AI-powe
 ## My learning projects / Graded Assignments 📚🎓✅
 1. Preweek - [GenAI Architecting](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/genai-architecting)
 2. Week1 - [Lang Portal](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/lang-portal-golang-vuejs), [Vocab Importer](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/vocab_importer), [OPEA Megaservice](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/opea-comps)
-3. Week2 - [Writing App](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/writing-practice), Listening App(https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/listening-comp)
+3. Week2 - [Writing App](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/writing-practice), [Listening App](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/listening-comp)
 4. Week3
 5. Week4
 6. Week5

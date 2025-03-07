@@ -35,15 +35,15 @@ class GradingSystem:
             img_processed = self.preprocess_image_for_ocr(img_cv)
             print("Preprocessed image for OCR.")
             
-            # Perform OCR
+            # Perform OCR using Arabic library since Jawi is based on Arabic except that Jawi has extra characters 'ڠ''ݣ''چ
             detected_text = pytesseract.image_to_string(
                 img_processed, 
-                lang='chi_sim',
+                lang='ara',
                 config=self.tesseract_config
             ).strip()
             pytesseract.image_to_string(
                 img_processed, 
-                lang='chi_sim',
+                lang='ara',
                 config=self.tesseract_config
             )
             print("Detected text from OCR:", detected_text)

@@ -18,6 +18,24 @@ We need to quickly populate the application with word and word groups so student
 - A Jawi-transcriptor is a future work in planning that is similar to sentence-constructor to solve the issue of incorrect Jawi script
 
 
+## Vocab Importer Tool
 
+The Vocab Importer is a Streamlit-based utility designed to rapidly generate Malay vocabulary content for the language learning platform. It leverages LLM capabilities through Ollama to create structured vocabulary data that can be imported into the main application. The implementation consists of several key components:
+
+1. **Streamlit Interface**: A clean, user-friendly web interface where users can input vocabulary categories (like Food, Family, Colors) and select from different LLM models.
+
+2. **Ollama Integration**: The tool connects to a locally-hosted Ollama service (containerized via Docker) to access various LLM models including llama3.1, llama3.2:1b, llama3:8b, and mistral.
+
+3. **Prompt Engineering**: Carefully crafted prompts instruct the LLM to generate vocabulary words with proper Malay text, Jawi script transcription, and English translations in a structured JSON format.
+
+4. **Robust JSON Parsing**: The implementation includes sophisticated error handling and JSON cleaning functions to deal with malformed LLM outputs, particularly focusing on issues with unescaped parentheses in translation values.
+
+5. **Data Visualization**: Generated vocabulary is displayed in both tabular format for easy reading and raw JSON format for technical use.
+
+6. **Export Functionality**: A one-click copy-to-clipboard feature allows users to easily export the generated JSON data for import into the main language portal.
+
+7. **Containerization**: The Ollama service is containerized using Docker Compose, making deployment consistent across environments.
+
+The tool addresses a critical technical challenge regarding the accuracy of Jawi script generation, noting that only the llama3-8b model produces reliable Jawi transcriptions, despite being slower on local hardware. This implementation serves as a temporary solution until a dedicated Jawi transcriptor service can be developed.
 
 
