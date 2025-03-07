@@ -8,7 +8,7 @@ We need to quickly populate the application with word and word groups so student
 - The word must have the English translation
 - The word must have a word group (food, color, etc)
 - For fast prototyping, we will use Streamlit
-- We will use Ollama served by OPEA 
+- We will use Ollama served by Docker
 
 
 ### Technical Uncertainty
