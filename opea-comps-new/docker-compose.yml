@@ -6,7 +6,36 @@ services:
     ports:
       - "8000:8000"
     environment:
-      HF_TOKEN: "HF_TOKEN"
+      HF_TOKEN: ${HF_TOKEN}
       VLLM_CPU_DISABLE_AVX512: "true"
     # command: ["python3", "-m", "vllm.entrypoints.api_server", "--model", "google/gemma-2-9b", "--dtype", "bfloat16"]
     command: ["--model", "facebook/opt-125m", "--dtype", "bfloat16"]
+
+  opea-nginx-server:
+    image: opea/nginx:latest
+    container_name: opea-nginx-server
+    ports:
+      - "${NGINX_PORT:-80}:80"
+    environment:
+      - no_proxy=${no_proxy}
+      - https_proxy=${https_proxy}
+      - http_proxy=${http_proxy}
+      - FRONTEND_SERVICE_IP=${FRONTEND_SERVICE_IP}
+      - FRONTEND_SERVICE_PORT=${FRONTEND_SERVICE_PORT}
+      - BACKEND_SERVICE_NAME=${BACKEND_SERVICE_NAME}
+      - BACKEND_SERVICE_IP=${BACKEND_SERVICE_IP}
+      - BACKEND_SERVICE_PORT=${BACKEND_SERVICE_PORT}
+      - DATAPREP_SERVICE_IP=${DATAPREP_SERVICE_IP}
+      - DATAPREP_SERVICE_PORT=${DATAPREP_SERVICE_PORT}
+    ipc: host
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro  # Mount NGINX config
+    depends_on:
+      - vllm-cpu
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
