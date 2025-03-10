@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  vllm-cpu:
+    image: superumi/vllm-cpu:latest
+    ports:
+      - "8000:8000"
+    environment:
+      HF_TOKEN: "HF_TOKEN"
+      VLLM_CPU_DISABLE_AVX512: "true"
+    # command: ["python3", "-m", "vllm.entrypoints.api_server", "--model", "google/gemma-2-9b", "--dtype", "bfloat16"]
+    command: ["--model", "facebook/opt-125m", "--dtype", "bfloat16"]
