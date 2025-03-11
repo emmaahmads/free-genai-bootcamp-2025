@@ -9,7 +9,7 @@ services:
       HF_TOKEN: ${HF_TOKEN}
       VLLM_CPU_DISABLE_AVX512: "true"
     # command: ["python3", "-m", "vllm.entrypoints.api_server", "--model", "google/gemma-2-9b", "--dtype", "bfloat16"]
-    command: ["--model", "facebook/opt-125m", "--dtype", "bfloat16"]
+    command: ["--model", "mesolitica/mallam-1.1B-4096", "--dtype", "bfloat16"]
 
   opea-nginx-server:
     image: opea/nginx:latest
@@ -35,6 +35,34 @@ services:
       - vllm-cpu
     networks:
       - default
+  
+  whisper-service:
+    image: ${REGISTRY:-opea}/whisper:${TAG:-latest}
+    container_name: whisper-service
+    ports:
+      - "7066:7066"
+    ipc: host
+    depends_on:
+      - opea-nginx-server
+    environment:
+      no_proxy: ${no_proxy}
+      http_proxy: ${http_proxy}
+      https_proxy: ${https_proxy}
+    restart: unless-stopped
+  
+  espeak-service:
+    image: superumi/espeak-malay:latest
+    container_name: espeak-service
+    ports:
+      - "7055:7055"
+    ipc: host
+    depends_on:
+      - opea-nginx-server
+    environment:
+      no_proxy: ${no_proxy}
+      http_proxy: ${http_proxy}
+      https_proxy: ${https_proxy}
+    restart: unless-stopped
 
 networks:
   default:
