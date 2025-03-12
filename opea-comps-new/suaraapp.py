@@ -7,32 +7,42 @@ from fastapi import Request
 
 MEGA_SERVICE_PORT = int(os.getenv("MEGA_SERVICE_PORT", 8888))
 
-WHISPER_SERVER_HOST_IP = os.getenv("WHISPER_SERVER_HOST_IP", "0.0.0.0")
+# Service configurations based on docker-compose.yml
+WHISPER_SERVER_HOST_IP = os.getenv("WHISPER_SERVER_HOST_IP", "whisper-service")
 WHISPER_SERVER_PORT = int(os.getenv("WHISPER_SERVER_PORT", 7066))
-SPEECHT5_SERVER_HOST_IP = os.getenv("SPEECHT5_SERVER_HOST_IP", "0.0.0.0")
+SPEECHT5_SERVER_HOST_IP = os.getenv("SPEECHT5_SERVER_HOST_IP", "speecht5-service")
 SPEECHT5_SERVER_PORT = int(os.getenv("SPEECHT5_SERVER_PORT", 7055))
-LLM_SERVER_HOST_IP = os.getenv("LLM_SERVER_HOST_IP", "0.0.0.0")
-LLM_SERVER_PORT = int(os.getenv("LLM_SERVER_PORT", 3006))
-LLM_MODEL_ID = os.getenv("LLM_MODEL_ID", "Intel/neural-chat-7b-v3-3")
+OLLAMA_SERVER_HOST_IP = os.getenv("OLLAMA_SERVER_HOST_IP", "ollama-server")
+OLLAMA_SERVER_PORT = int(os.getenv("OLLAMA_SERVER_PORT", 11434))
+OLLAMA_MODEL_ID = os.getenv("OLLAMA_MODEL_ID", "mistral")
+
+# Nginx proxy configuration
+USE_NGINX_PROXY = os.getenv("USE_NGINX_PROXY", "true").lower() == "true"
+NGINX_HOST = os.getenv("NGINX_HOST", "opea-nginx-server")
+NGINX_PORT = int(os.getenv("NGINX_PORT", 80))
 
 
 def align_inputs(self, inputs, cur_node, runtime_graph, llm_parameters_dict, **kwargs):
     if self.services[cur_node].service_type == ServiceType.LLM:
-        # convert TGI/vLLM to unified OpenAI /v1/chat/completions format
+        # Handle Ollama format
         next_inputs = {}
-        next_inputs["model"] = LLM_MODEL_ID
-        next_inputs["messages"] = [{"role": "user", "content": inputs["asr_result"]}]
-        next_inputs["max_tokens"] = llm_parameters_dict["max_tokens"]
-        next_inputs["top_p"] = llm_parameters_dict["top_p"]
-        next_inputs["stream"] = inputs["stream"]  # False as default
-        next_inputs["frequency_penalty"] = inputs["frequency_penalty"]
-        # next_inputs["presence_penalty"] = inputs["presence_penalty"]
-        # next_inputs["repetition_penalty"] = inputs["repetition_penalty"]
-        next_inputs["temperature"] = inputs["temperature"]
+        next_inputs["model"] = OLLAMA_MODEL_ID
+        next_inputs["prompt"] = inputs["asr_result"]
+        next_inputs["stream"] = False
+        next_inputs["options"] = {
+            "temperature": inputs["temperature"],
+            "top_p": llm_parameters_dict["top_p"],
+            "frequency_penalty": inputs["frequency_penalty"],
+        }
         inputs = next_inputs
     elif self.services[cur_node].service_type == ServiceType.TTS:
         next_inputs = {}
-        next_inputs["text"] = inputs["choices"][0]["message"]["content"]
+        # Extract text from Ollama response format
+        if "response" in inputs:
+            next_inputs["text"] = inputs["response"]
+        else:
+            # Fallback for other LLM formats
+            next_inputs["text"] = inputs.get("choices", [{}])[0].get("message", {}).get("content", "")
         next_inputs["voice"] = kwargs["voice"]
         inputs = next_inputs
     return inputs
@@ -48,30 +58,66 @@ class AudioQnAService:
         self.endpoint = str(MegaServiceEndpoint.AUDIO_QNA)
 
     def add_remote_service(self):
-        asr = MicroService(
-            name="asr",
-            host=WHISPER_SERVER_HOST_IP,
-            port=WHISPER_SERVER_PORT,
-            endpoint="/v1/asr",
-            use_remote_service=True,
-            service_type=ServiceType.ASR,
-        )
-        llm = MicroService(
-            name="llm",
-            host=LLM_SERVER_HOST_IP,
-            port=LLM_SERVER_PORT,
-            endpoint="/v1/chat/completions",
-            use_remote_service=True,
-            service_type=ServiceType.LLM,
-        )
-        tts = MicroService(
-            name="tts",
-            host=SPEECHT5_SERVER_HOST_IP,
-            port=SPEECHT5_SERVER_PORT,
-            endpoint="/v1/tts",
-            use_remote_service=True,
-            service_type=ServiceType.TTS,
-        )
+        # Configure ASR service (Whisper)
+        if USE_NGINX_PROXY:
+            asr = MicroService(
+                name="asr",
+                host=NGINX_HOST,
+                port=NGINX_PORT,
+                endpoint="/asr",
+                use_remote_service=True,
+                service_type=ServiceType.ASR,
+            )
+        else:
+            asr = MicroService(
+                name="asr",
+                host=WHISPER_SERVER_HOST_IP,
+                port=WHISPER_SERVER_PORT,
+                endpoint="/v1/asr",
+                use_remote_service=True,
+                service_type=ServiceType.ASR,
+            )
+
+        # Configure LLM service (Ollama)
+        if USE_NGINX_PROXY:
+            llm = MicroService(
+                name="llm",
+                host=NGINX_HOST,
+                port=NGINX_PORT,
+                endpoint="/ollama",
+                use_remote_service=True,
+                service_type=ServiceType.LLM,
+            )
+        else:
+            llm = MicroService(
+                name="llm",
+                host=OLLAMA_SERVER_HOST_IP,
+                port=OLLAMA_SERVER_PORT,
+                endpoint="/api/generate",
+                use_remote_service=True,
+                service_type=ServiceType.LLM,
+            )
+
+        # Configure TTS service (SpeechT5)
+        if USE_NGINX_PROXY:
+            tts = MicroService(
+                name="tts",
+                host=NGINX_HOST,
+                port=NGINX_PORT,
+                endpoint="/tts",
+                use_remote_service=True,
+                service_type=ServiceType.TTS,
+            )
+        else:
+            tts = MicroService(
+                name="tts",
+                host=SPEECHT5_SERVER_HOST_IP,
+                port=SPEECHT5_SERVER_PORT,
+                endpoint="/v1/tts",
+                use_remote_service=True,
+                service_type=ServiceType.TTS,
+            )
+
         self.megaservice.add(asr).add(llm).add(tts)
         self.megaservice.flow_to(asr, llm)
         self.megaservice.flow_to(llm, tts)
