@@ -8,54 +8,53 @@ from fastapi import Request
 MEGA_SERVICE_PORT = int(os.getenv("MEGA_SERVICE_PORT", 8888))
 
 # Service configurations based on docker-compose.yml
-WHISPER_SERVER_HOST_IP = os.getenv("WHISPER_SERVER_HOST_IP", "whisper-service")
+WHISPER_SERVER_HOST_IP = os.getenv("WHISPER_SERVER_HOST_IP", "0.0.0.0")
 WHISPER_SERVER_PORT = int(os.getenv("WHISPER_SERVER_PORT", 7066))
-SPEECHT5_SERVER_HOST_IP = os.getenv("SPEECHT5_SERVER_HOST_IP", "speecht5-service")
+SPEECHT5_SERVER_HOST_IP = os.getenv("SPEECHT5_SERVER_HOST_IP", "0.0.0.0")
 SPEECHT5_SERVER_PORT = int(os.getenv("SPEECHT5_SERVER_PORT", 7055))
-OLLAMA_SERVER_HOST_IP = os.getenv("OLLAMA_SERVER_HOST_IP", "ollama-server")
+OLLAMA_SERVER_HOST_IP = os.getenv("OLLAMA_SERVER_HOST_IP", "0.0.0.0")
 OLLAMA_SERVER_PORT = int(os.getenv("OLLAMA_SERVER_PORT", 11434))
 OLLAMA_MODEL_ID = os.getenv("OLLAMA_MODEL_ID", "mistral")
 
 # Nginx proxy configuration
 USE_NGINX_PROXY = os.getenv("USE_NGINX_PROXY", "true").lower() == "true"
-NGINX_HOST = os.getenv("NGINX_HOST", "opea-nginx-server")
-NGINX_PORT = int(os.getenv("NGINX_PORT", 80))
-
+NGINX_HOST = os.getenv("NGINX_HOST", "0.0.0.0")
+NGINX_PORT = int(os.getenv("NGINX_PORT", 80))    
 
 def align_inputs(self, inputs, cur_node, runtime_graph, llm_parameters_dict, **kwargs):
-    if self.services[cur_node].service_type == ServiceType.LLM:
-        # Handle Ollama format
-        next_inputs = {}
-        next_inputs["model"] = OLLAMA_MODEL_ID
-        next_inputs["prompt"] = inputs["asr_result"]
-        next_inputs["stream"] = False
-        next_inputs["options"] = {
-            "temperature": inputs["temperature"],
-            "top_p": llm_parameters_dict["top_p"],
-            "frequency_penalty": inputs["frequency_penalty"],
-        }
-        inputs = next_inputs
-    elif self.services[cur_node].service_type == ServiceType.TTS:
-        next_inputs = {}
-        # Extract text from Ollama response format
-        if "response" in inputs:
-            next_inputs["text"] = inputs["response"]
-        else:
-            # Fallback for other LLM formats
-            next_inputs["text"] = inputs.get("choices", [{}])[0].get("message", {}).get("content", "")
-        next_inputs["voice"] = kwargs["voice"]
-        inputs = next_inputs
+    # if self.services[cur_node].service_type == ServiceType.LLM:
+    #     # Handle Ollama format
+    #     next_inputs = {}
+    #     next_inputs["model"] = OLLAMA_MODEL_ID
+    #     next_inputs["prompt"] = f"{inputs["asr_result"]}. Sila bagi jawapan dalam 50 perkataan sahaja."
+    #     next_inputs["stream"] = False
+    #     next_inputs["options"] = {
+    #         "temperature": inputs["temperature"],
+    #         "top_p": llm_parameters_dict["top_p"],
+    #         "frequency_penalty": inputs["frequency_penalty"],
+    #     }
+    #     inputs = next_inputs
+    # elif self.services[cur_node].service_type == ServiceType.TTS:
+    #     next_inputs = {}
+    #     # Extract text from Ollama response format
+    #     if "response" in inputs:
+    #         next_inputs["text"] = inputs["response"]
+    #     else:
+    #         # Fallback for other LLM formats
+    #         next_inputs["text"] = inputs.get("choices", [{}])[0].get("message", {}).get("content", "")
+    #     next_inputs["voice"] = kwargs["voice"]
+    #     inputs = next_inputs
     return inputs
 
 
-class AudioQnAService:
+class SuaraService:
     def __init__(self, host="0.0.0.0", port=8000):
         self.host = host
         self.port = port
         ServiceOrchestrator.align_inputs = align_inputs
         self.megaservice = ServiceOrchestrator()
 
-        self.endpoint = str(MegaServiceEndpoint.AUDIO_QNA)
+        self.endpoint = "/v1/suara"
 
     def add_remote_service(self):
         # Configure ASR service (Whisper)
@@ -118,9 +117,10 @@ class AudioQnAService:
                 service_type=ServiceType.TTS,
             )
 
-        self.megaservice.add(asr).add(llm).add(tts)
-        self.megaservice.flow_to(asr, llm)
-        self.megaservice.flow_to(llm, tts)
+        # self.megaservice.add(asr).add(llm).add(tts)
+        # self.megaservice.flow_to(asr, llm)
+        # self.megaservice.flow_to(llm, tts)
+        self.megaservice.add(asr)
 
     async def handle_request(self, request: Request):
         data = await request.json()
@@ -163,6 +163,7 @@ class AudioQnAService:
 
 
 if __name__ == "__main__":
-    audioqna = AudioQnAService(port=MEGA_SERVICE_PORT)
-    audioqna.add_remote_service()
-    audioqna.start()
+    print(f"[LOG] USE_NGINX_PROXY={USE_NGINX_PROXY}")
+    suara = SuaraService(port=MEGA_SERVICE_PORT)
+    suara.add_remote_service()
+    suara.start()
