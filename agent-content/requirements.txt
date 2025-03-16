@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+aiohttp
+ollama
+instructor
+python-dotenv
+google.genai
