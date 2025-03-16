@@ -1,11 +1,16 @@
 import re
 import aiohttp
 from typing import Dict, Any, Tuple
-import ollama
-from instructor import patch
+from openai import OpenAI
+import instructor
 
-# Patch the ollama client with instructor for structured output
-patched_ollama = patch(ollama)
+client = instructor.from_openai(
+    OpenAI(
+        base_url="http://localhost:11434/v1",
+        api_key="ollama",  # required, but unused
+    ),
+    mode=instructor.Mode.JSON,
+)
 
 async def get_content(url: str) -> str:
     """
@@ -105,7 +110,7 @@ async def _analyze_content(title: str, description: str) -> Tuple[bool, bool]:
     Return your analysis as a JSON with two boolean fields: is_malay and is_appropriate.
     """
     
-    response = patched_ollama.chat.completions.create(
+    response = client.chat.completions.create(
         model="mistral:7b",
         messages=[{"role": "user", "content": prompt}],
         response_model={

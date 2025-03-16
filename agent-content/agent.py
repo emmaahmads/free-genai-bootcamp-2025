@@ -3,14 +3,12 @@ import re
 import os
 import datetime
 from typing import Dict, List, Any, Optional
-import mistral
-from instructor import patch
+from openai import OpenAI
+import instructor
 from tools.get_transcript import get_transcript
 from tools.get_content import get_content
 from tools.search_videos import search_videos
 
-# Patch the ollama client with instructor for structured output
-patched_ollama = patch(ollama)
 
 class YouTubeTranscriptAgent:
     """
@@ -26,6 +24,14 @@ class YouTubeTranscriptAgent:
             "search_videos": search_videos
         }
         
+        self.client = instructor.from_openai(
+            OpenAI(
+                base_url="http://localhost:11434/v1",
+                api_key="ollama",  # required, but unused
+            ),
+            mode=instructor.Mode.JSON,
+        )
+
         # Create logs directory if it doesn't exist
         self.logs_dir = "agent-content/logs"
         os.makedirs(self.logs_dir, exist_ok=True)
@@ -128,7 +134,7 @@ class YouTubeTranscriptAgent:
         Returns:
             A dictionary containing the next action and parameters
         """
-        response = patched_ollama.chat.completions.create(
+        response = self.client.chat.completions.create(
             model=self.model,
             messages=conversation,
             response_model={

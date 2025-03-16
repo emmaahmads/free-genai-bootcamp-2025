@@ -2,7 +2,6 @@ fastapi
 uvicorn
 pydantic
 aiohttp
-ollama
-instructor
+instructor[mistral]
 python-dotenv
 google.genai
