@@ -22,7 +22,7 @@ If a video doesn't have an embedded transcript or doesn't meet the criteria, the
 
 ```
 agent-content/
-├── agent-prompt.md     # The ReACT agent prompt
+├── agent-prompt-test.md     # The ReACT agent prompt
 ├── agent.py            # Agent implementation
 ├── main.py             # FastAPI application
 ├── requirements.txt    # Dependencies

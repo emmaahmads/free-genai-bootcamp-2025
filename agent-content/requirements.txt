@@ -5,3 +5,5 @@ aiohttp
 instructor[mistral]
 python-dotenv
 google.genai
+openai
+youtube_transcript_api

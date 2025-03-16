@@ -3,6 +3,12 @@ import aiohttp
 from typing import Dict, Any, Tuple
 from openai import OpenAI
 import instructor
+from pydantic import BaseModel, Field
+
+class ContentAnalysis(BaseModel):
+    """Model for content analysis results"""
+    is_malay: bool = Field(description="Whether the content is in Malay language")
+    is_appropriate: bool = Field(description="Whether the content is appropriate for language learning")
 
 client = instructor.from_openai(
     OpenAI(
@@ -23,6 +29,8 @@ async def get_content(url: str) -> str:
     Returns:
         A string describing whether the video is in Malay and appropriate
     """
+    print(f"Analyzing video content: {url}")
+    
     # Extract video ID from URL
     video_id_match = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11}).*', url)
     if not video_id_match:
@@ -43,11 +51,11 @@ async def get_content(url: str) -> str:
             
             # Extract video title and description
             if "items" in data and len(data["items"]) > 0:
-                title = data["items"][0]["snippet"]["title"]
-                description = data["items"][0]["snippet"]["description"]
+                print(f"Video title: {data['items'][0]['snippet']['title']}")
+                print(f"Video description: {data['items'][0]['snippet']['description']}")
                 
                 # Use LLM to analyze if content is in Malay and appropriate for language learning
-                is_malay, is_appropriate = await _analyze_content(title, description)
+                is_malay, is_appropriate = await _analyze_content(data["items"][0]["snippet"]["title"], data["items"][0]["snippet"]["description"])
                 
                 if is_malay and is_appropriate:
                     return "The video is in Malay and the content is appropriate for language learning."
@@ -58,6 +66,7 @@ async def get_content(url: str) -> str:
             else:
                 return "Error: Could not retrieve video metadata"
     except Exception as e:
+        print(f"Error analyzing video content: {str(e)}")
         return f"Error analyzing video content: {str(e)}"
 
 async def _simulate_youtube_api_response(video_id: str) -> Dict[str, Any]:
@@ -71,9 +80,9 @@ async def _simulate_youtube_api_response(video_id: str) -> Dict[str, Any]:
     Returns:
         A dictionary mimicking the YouTube API response
     """
-    # This is a simplified mock response
-    # In a real implementation, you would get this data from the YouTube API
-    return {
+    print(f"Simulating YouTube API response for video ID: {video_id}")
+
+    response = {
         "items": [
             {
                 "id": video_id,
@@ -86,6 +95,9 @@ async def _simulate_youtube_api_response(video_id: str) -> Dict[str, Any]:
             }
         ]
     }
+    
+    print(f"Generated response: {response}")
+    return response
 
 async def _analyze_content(title: str, description: str) -> Tuple[bool, bool]:
     """
@@ -110,13 +122,15 @@ async def _analyze_content(title: str, description: str) -> Tuple[bool, bool]:
     Return your analysis as a JSON with two boolean fields: is_malay and is_appropriate.
     """
     
+    print(f"Analyzing content: title={title}, description={description}")
+    print(f"Prompt: {prompt}")
+    
     response = client.chat.completions.create(
-        model="mistral:7b",
+        model="mistral",
         messages=[{"role": "user", "content": prompt}],
-        response_model={
-            "is_malay": bool,
-            "is_appropriate": bool
-        }
+        response_model=ContentAnalysis
     )
+    
+    print(f"Response: {response}")
     
     return response.is_malay, response.is_appropriate

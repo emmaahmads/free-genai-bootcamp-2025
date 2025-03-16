@@ -8,7 +8,14 @@ import instructor
 from tools.get_transcript import get_transcript
 from tools.get_content import get_content
 from tools.search_videos import search_videos
+from pydantic import BaseModel, Field
 
+class AgentAction(BaseModel):
+    """Model for the agent's next action"""
+    thought: str = Field(description="The agent's reasoning process")
+    action: Optional[str] = Field(None, description="The tool to execute")
+    # parameters: Optional[Dict[str, Any]] = Field(None, description="Parameters for the tool")
+    final_answer: Optional[str] = Field(None, description="The final answer if the task is complete")
 
 class YouTubeTranscriptAgent:
     """
@@ -17,7 +24,7 @@ class YouTubeTranscriptAgent:
     """
     
     def __init__(self):
-        self.model = "mistral:7b"
+        self.model = "mistral"
         self.tools = {
             "get_transcript": get_transcript,
             "get_content": get_content,
@@ -33,11 +40,11 @@ class YouTubeTranscriptAgent:
         )
 
         # Create logs directory if it doesn't exist
-        self.logs_dir = "agent-content/logs"
+        self.logs_dir = "logs"
         os.makedirs(self.logs_dir, exist_ok=True)
         
         # Load the agent prompt
-        with open("agent-content/agent-prompt.md", "r") as f:
+        with open("agent-prompt-test.md", "r") as f:
             self.prompt_template = f.read()
         
     async def run(self, youtube_url: str) -> Dict[str, Any]:
@@ -50,6 +57,8 @@ class YouTubeTranscriptAgent:
         Returns:
             A dictionary containing either the transcript or alternative video suggestions
         """
+        print(f"Running agent for YouTube URL: {youtube_url}")
+        
         # Initialize the conversation
         conversation = [
             {"role": "system", "content": self.prompt_template},
@@ -72,11 +81,13 @@ class YouTubeTranscriptAgent:
         
         while iterations < max_iterations:
             iterations += 1
+            print(f"Iteration {iterations}")
             
             # Get the next action from the model
             result = await self._get_next_action(conversation)
             
             # Check if the agent has completed the task
+            print(f"Result: {result}")
             if "final_answer" in result:
                 # Parse the final answer to extract transcript or alternatives
                 response = self._parse_final_answer(result["final_answer"])
@@ -121,6 +132,7 @@ class YouTubeTranscriptAgent:
         
         # Log the conversation to a file
         self._log_conversation(youtube_url, conversation_log, final_answer)
+        print("Logging conversation to file")
                 
         return response
     
@@ -137,12 +149,7 @@ class YouTubeTranscriptAgent:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=conversation,
-            response_model={
-                "thought": str,
-                "action": Optional[str],
-                "parameters": Optional[Dict[str, Any]],
-                "final_answer": Optional[str]
-            }
+            response_model=AgentAction
         )
         
         return response
@@ -158,14 +165,20 @@ class YouTubeTranscriptAgent:
         Returns:
             The observation from the tool execution
         """
+        print(f"Attempting to execute tool: {tool_name} with parameters: {parameters}")
         if tool_name not in self.tools:
-            return f"Error: Tool '{tool_name}' not found. Available tools: {list(self.tools.keys())}"
+            error_message = f"Error: Tool '{tool_name}' not found. Available tools: {list(self.tools.keys())}"
+            print(error_message)
+            return error_message
         
         try:
             result = await self.tools[tool_name](**parameters)
+            print(f"Tool '{tool_name}' executed successfully. Result: {result}")
             return str(result)
         except Exception as e:
-            return f"Error executing tool '{tool_name}': {str(e)}"
+            error_message = f"Error executing tool '{tool_name}': {str(e)}"
+            print(error_message)
+            return error_message
     
     def _parse_final_answer(self, final_answer: str) -> Dict[str, Any]:
         """
@@ -177,6 +190,8 @@ class YouTubeTranscriptAgent:
         Returns:
             A dictionary containing the transcript or alternative video suggestions
         """
+        print("Parsing final answer...")
+
         # Try to extract a JSON structure if present
         json_pattern = r'```json\s*([\s\S]*?)\s*```'
         json_match = re.search(json_pattern, final_answer)
@@ -184,21 +199,25 @@ class YouTubeTranscriptAgent:
         if json_match:
             try:
                 json_str = json_match.group(1)
+                print(f"JSON string extracted: {json_str}")
                 return json.loads(json_str)
-            except json.JSONDecodeError:
-                pass
+            except json.JSONDecodeError as e:
+                print(f"JSON decode error: {str(e)}")
         
         # If no JSON found or parsing failed, create a default response
         response = {
             "transcript": None,
             "alternatives": []
         }
-        
+        print("No valid JSON found, defaulting response.")
+
         # Look for alternatives in the text
         alt_pattern = r'https://www\.youtube\.com/watch\?v=([a-zA-Z0-9_-]+)\s*-\s*"([^"]+)"'
         alternatives = re.findall(alt_pattern, final_answer)
-        
+        print(f"Found {len(alternatives)} alternative(s).")
+
         for video_id, title in alternatives:
+            print(f"Alternative found - URL: https://www.youtube.com/watch?v={video_id}, Title: {title}")
             response["alternatives"].append({
                 "url": f"https://www.youtube.com/watch?v={video_id}",
                 "title": title
