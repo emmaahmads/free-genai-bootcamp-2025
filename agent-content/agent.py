@@ -14,8 +14,21 @@ class AgentAction(BaseModel):
     """Model for the agent's next action"""
     thought: str = Field(description="The agent's reasoning process")
     action: Optional[str] = Field(None, description="The tool to execute")
-    # parameters: Optional[Dict[str, Any]] = Field(None, description="Parameters for the tool")
+    parameters: Optional[Dict[str, Any]] = Field(None, description="Parameters for the tool")
     final_answer: Optional[str] = Field(None, description="The final answer if the task is complete")
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "thought": "I need to get the transcript of this video",
+                    "action": "get_transcript",
+                    "parameters": {"video_url": "https://www.youtube.com/watch?v=example"},
+                    "final_answer": None
+                }
+            ]
+        }
+    }
 
 class YouTubeTranscriptAgent:
     """
@@ -88,16 +101,16 @@ class YouTubeTranscriptAgent:
             
             # Check if the agent has completed the task
             print(f"Result: {result}")
-            if "final_answer" in result:
+            if result and result.get("final_answer"):
                 # Parse the final answer to extract transcript or alternatives
-                response = self._parse_final_answer(result["final_answer"])
-                final_answer = result["final_answer"]
+                response = self._parse_final_answer(result.get("final_answer"))
+                final_answer = result.get("final_answer")
                 break
                 
             # Execute the tool and get the observation
-            if "action" in result and "parameters" in result:
-                tool_name = result["action"]
-                parameters = result["parameters"]
+            if result and result.get("action") and result.get("parameters") is not None:
+                tool_name = result.get("action")
+                parameters = result.get("parameters", {})
                 
                 # Add to conversation log
                 conversation_log.append({
@@ -146,13 +159,30 @@ class YouTubeTranscriptAgent:
         Returns:
             A dictionary containing the next action and parameters
         """
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=conversation,
-            response_model=AgentAction
-        )
-        
-        return response
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=conversation,
+                response_model=AgentAction,
+                max_retries=2
+            )
+            
+            # Convert to dict for consistency with the rest of the code
+            return {
+                "thought": response.thought,
+                "action": response.action,
+                "parameters": response.parameters,
+                "final_answer": response.final_answer
+            }
+        except Exception as e:
+            print(f"Error in _get_next_action: {str(e)}")
+            # Return a default response with required fields
+            return {
+                "thought": "Error occurred while processing. Continuing with default reasoning.",
+                "action": None,
+                "parameters": None,
+                "final_answer": "I encountered an error while processing your request. Please try again."
+            }
     
     async def _execute_tool(self, tool_name: str, parameters: Dict[str, Any]) -> str:
         """
@@ -191,7 +221,11 @@ class YouTubeTranscriptAgent:
             A dictionary containing the transcript or alternative video suggestions
         """
         print("Parsing final answer...")
-
+        
+        # Ensure final_answer is a string
+        if final_answer is None:
+            final_answer = ""
+            
         # Try to extract a JSON structure if present
         json_pattern = r'```json\s*([\s\S]*?)\s*```'
         json_match = re.search(json_pattern, final_answer)
@@ -257,7 +291,7 @@ class YouTubeTranscriptAgent:
             
             # Write final answer
             f.write("Final answer:\n")
-            if final_answer:
+            if final_answer is not None:
                 f.write(f"{final_answer}\n")
             else:
                 f.write("No final answer provided.\n")
