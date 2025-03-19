@@ -46,24 +46,24 @@
         </div>
         
         <div class="feature-card">
-          <div class="feature-icon">🗣️</div>
-          <h3>Pronunciation Practice</h3>
-          <p>Perfect your accent with audio examples and speech recognition.</p>
-          <a href="#" class="feature-link">Coming Soon</a>
+          <div class="feature-icon">🖋️</div>
+          <h3>Practice Jawi</h3>
+          <p>Learn to read and write in the traditional Jawi script used for Malay.</p>
+          <router-link to="/practice-jawi" class="feature-link">Start Practice</router-link>
         </div>
         
         <div class="feature-card">
-          <div class="feature-icon">✍️</div>
-          <h3>Grammar Exercises</h3>
-          <p>Master Malay grammar rules through interactive exercises.</p>
-          <router-link to="/study-activities" class="feature-link">Practice Now</router-link>
+          <div class="feature-icon">🎧</div>
+          <h3>Listening and Speaking</h3>
+          <p>Improve your Malay listening comprehension and speaking skills.</p>
+          <router-link to="/listening-speaking" class="feature-link">Practice Now</router-link>
         </div>
         
         <div class="feature-card">
-          <div class="feature-icon">💬</div>
-          <h3>Conversation Practice</h3>
-          <p>Practice real-life conversations with our AI conversation partner.</p>
-          <a href="#" class="feature-link">Coming Soon</a>
+          <div class="feature-icon">🖼️</div>
+          <h3>Picture Game</h3>
+          <p>Interactive picture game based on your chosen outcomes.</p>
+          <router-link to="/picture-game" class="feature-link">Play Now</router-link>
         </div>
       </div>
     </section>
@@ -139,8 +139,13 @@
 
 <script>
 export default {
-  name: 'Home',
-};
+  name: 'HomeView',
+  data() {
+    return {
+      
+    }
+  }
+}
 </script>
 
 <style scoped>
