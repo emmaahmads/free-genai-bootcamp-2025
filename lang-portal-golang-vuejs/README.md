@@ -1,9 +1,3 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
-
-# 
-
----
-
 ## Backend API Implementation
 
 The Lang Portal backend is built using **Go** as the programming language and **Gin** as the web framework. It utilizes **PostgreSQL** for data storage and maintains organization by separating sections for handling API requests, database interactions, and SQL updates. **sqlc** is used for generating database queries.

@@ -11,12 +11,13 @@ In this course, Andrew Brown and developers are designing and developing AI-powe
 
 ## My learning projects / Graded Assignments 📚🎓✅
 1. [GenAI Architecting](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/genai-architecting)
-2. [Lang Portal](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/lang-portal-golang-vuejs), [Vocab Importer](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/vocab_importer)
-3. [OPEA Megaservice](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/opea-comps)
-4. [Writing App](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/writing-practice)
-5. [Listening App](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/listening-comp)
-6. [Sentence Constructor](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/sentence-constructor)
-7. [Agent Content](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/agent-content)
+2. [Lang Portal](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/lang-portal-golang-vuejs)
+3. [Vocab Importer](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/vocab_importer)
+4. [OPEA Megaservice](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/opea-comps-new)
+5. [Writing App](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/writing-practice)
+6. [Listening App](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/listening-comp)
+7. [Sentence Constructor](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/sentence-constructor)
+8. [Agent Content](https://github.com/emmaahmads/free-genai-bootcamp-2025/tree/main/agent-content)
 
 ### Repository Structure
 ```
@@ -24,10 +25,11 @@ In this course, Andrew Brown and developers are designing and developing AI-powe
 ├── journaling/                  # My notes and Bootcamp journey
 ├── genai-architecting/          # AI system architecture
 ├── sentence-constructor/        # NLP-based Malay language tutoring
-├── opea-comps/                  # Open Platform Enterprise AI (OPEA) system (megaservice from scratch)
+├── opea-comps-new/              # Open Platform Enterprise AI (OPEA) system (megaservice from scratch)
 ├── lang-portal-golang-vuejs/    # My frontend and backend applications
 ├── vocab_importer/              # Word generator using customized private LLM
 ├── writing-practice/            # OCR assisted grading system for writing words in Jawi script
-├── lang-portal/                 # Andrew Brown's Japanese lang portal (copied directly)
 ├── typing-tutor/                # Andrew Brown's typing tutor app (copied directly)
+├── agent-content/               # Agentic content generation
+├── listening-comp/              # Listening comprehension app
 ```

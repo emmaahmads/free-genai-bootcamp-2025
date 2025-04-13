@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: lang-portal-db
+    environment:
+      POSTGRES_USER: superumi
+      POSTGRES_PASSWORD: superspecial
+      POSTGRES_DB: lang_portal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - lang-portal-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U superumi -d lang_portal"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Backend Go API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lang-portal-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: "postgresql://superumi:superspecial@db:5432/lang_portal?sslmode=disable"
+    networks:
+      - lang-portal-network
+
+  # Frontend Vue.js App
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lang-portal-frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - lang-portal-network
+
+  # Streamlit App for Practice Jawi
+  streamlit-jawi:
+    image: python:3.9-slim
+    container_name: streamlit-jawi
+    working_dir: /app
+    volumes:
+      - ./streamlit/jawi:/app
+    command: >
+      bash -c "pip install streamlit && streamlit run app.py"
+    ports:
+      - "8501:8501"
+    networks:
+      - lang-portal-network
+
+  # Streamlit App for Listening and Speaking
+  streamlit-listening:
+    image: python:3.9-slim
+    container_name: streamlit-listening
+    working_dir: /app
+    volumes:
+      - ./streamlit/listening:/app
+    command: >
+      bash -c "pip install streamlit && streamlit run app.py"
+    ports:
+      - "8502:8502"
+    networks:
+      - lang-portal-network
+
+  # Streamlit App for Picture Game
+  streamlit-picture:
+    image: python:3.9-slim
+    container_name: streamlit-picture
+    working_dir: /app
+    volumes:
+      - ./streamlit/picture:/app
+    command: >
+      bash -c "pip install streamlit && streamlit run app.py"
+    ports:
+      - "8503:8503"
+    networks:
+      - lang-portal-network
+
+networks:
+  lang-portal-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

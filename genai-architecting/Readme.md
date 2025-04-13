@@ -5,7 +5,7 @@ First AI-powered Malay-English language learning platform with Jawi script featu
 - Audio comprehension
 - Jawi hand-writing
 - Malay conversation
-- etc
+- Picture-based story making
 
 ## Assumptions
 
