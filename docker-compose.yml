@@ -24,7 +24,7 @@ services:
   # Backend Go API
   backend:
     build:
-      context: ./backend
+      context: ./lang-portal-golang-vuejs/backend
       dockerfile: Dockerfile
     container_name: lang-portal-backend
     depends_on:
@@ -40,7 +40,7 @@ services:
   # Frontend Vue.js App
   frontend:
     build:
-      context: ./frontend
+      context: ./lang-portal-golang-vuejs/frontend
       dockerfile: Dockerfile
     container_name: lang-portal-frontend
     ports:
@@ -56,7 +56,7 @@ services:
     container_name: streamlit-jawi
     working_dir: /app
     volumes:
-      - ./streamlit/jawi:/app
+      - ./lang-portal-golang-vuejs/streamlit/jawi:/app
     command: >
       bash -c "pip install streamlit && streamlit run app.py"
     ports:
@@ -70,7 +70,7 @@ services:
     container_name: streamlit-listening
     working_dir: /app
     volumes:
-      - ./streamlit/listening:/app
+      - ./lang-portal-golang-vuejs/streamlit/listening:/app
     command: >
       bash -c "pip install streamlit && streamlit run app.py"
     ports:
@@ -84,7 +84,7 @@ services:
     container_name: streamlit-picture
     working_dir: /app
     volumes:
-      - ./streamlit/picture:/app
+      - ./lang-portal-golang-vuejs/streamlit/picture:/app
     command: >
       bash -c "pip install streamlit && streamlit run app.py"
     ports:
